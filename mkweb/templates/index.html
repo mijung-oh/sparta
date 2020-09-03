@@ -1,68 +1,99 @@
 <!doctype html>
 <html lang="en">
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>나홀로 링크 메모장</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha3
-<!-- JS -->
-<script src=" https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6
-<script src=" https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+
-<script src=" https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8
-<!-- 구글폰트 -->
-<link href=" https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
-    <style>
-        div.jumbotron {
-            width: 900px;
-            margin: auto;
-        }
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>LINK MEMO</title>
+        <!-- Bootstrap CSS -->
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha3 -->
+    <!-- JS -->
+    <!-- <script src=" https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+
+    <script src=" https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8 -->
+        
+    <!-- 구글폰트 -->
+    <link href=" https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
+        <style>
+            div.jumbotron {
+                width: 900px;
+                margin: auto;
+            }
 
-        div.card-columns {
-            width: 900px;
-            margin: 10px auto 0 auto;
-        }
+            div.card-columns {
+                width: 900px;
+                margin: 10px auto 0 auto;
+            }
 
-        div.form-post {
-            max-width: 500px;
-            padding: 2rem;
-            margin: 2rem auto;
-            border-color: #e9ecef;
-            border-radius: 0.3rem;
-            border: solid;
-        }
+            div.form-post {
+                max-width: 500px;
+                padding: 2rem;
+                margin: 2rem auto;
+                border-color: #e9ecef;
+                border-radius: 0.3rem;
+                border: solid;
+            }
 
-        .comment {
-            color: blue;
-            font-weight: bold;
-        }
-    </style>
-</head>
+            .comment {
+                color: blue;
+                font-weight: bold;
+            }
+            #posting-box{
+                display: none;;
+            }
+        </style>
+
+        <script>
+            function openclose(){
+                if( $('#posting-box').css('display') == 'block'){
+                    //posting box 가리기
+                    $('#posting-box').hide();
+                    $('#btn-posting-box').text('open')
+                }
+                else{
+                    $('#posting-box').show();
+                    $('#btn-posting-box').text('close')
+                }
+            }
+
+            function make_card(url,comment){
+                let temp_html='<div class="card">\
+                    < img class="card-img-top" src = "https://www.fodors.com/wp-content/uploads/2018/10/4_UltimateRome_PiazzaNavona-97" >\
+                    <div class="card-body">\
+                        <h5 class="card-title"> this is card!!</h5>\
+                        < p class="card-text" > this is contents</ >\
+                        <p class="card-text comment">this is commnt.</p>\
+                    </div>\
+            </div >';
+
+                $('#cards-box').append(temp_html);
+            }
+        </script>
+    </head>
 
 <body>
     <div class="jumbotron">
-        <h1 class="display-4">나홀로 링크 메모장</h1>
-        <p class="lead"> 글을 읽고 난 뒤 들었던 내 생각들, 단상, 나는 무엇을 읽고, 무엇을 생각했는가?</p>
+        <h1 class="display-4">LINK MEMO</h1>
         <hr class="my-4">
         <p class="lead">
-            <button type="button" class="btn btn-primary">
-                포스팅 박스 열기
+            <button type="button" onclick="openclose()" class="btn btn-primary">
+                open the posting box
             </button>
         </p>
     </div>
 
-    <div class="form-post">
+    <div id="posting-box" class="form-post">
         <form action="">
             <div class="form-group">
-                <label for="exampleFormControlInput1">아티클 URL</label>
+                <label for="exampleFormControlInput1">Article URL</label>
                 <input class="form-control" placeholder="" name="" id="">
             </div>
             <div class="form-group">
-                <label for="exampleFormControlTextarea1">간단 코멘트</label>
+                <label for="exampleFormControlTextarea1">Simple comment</label>
                 <textarea class="form-control" rows="3"></textarea>
-                <button type="button" class="btn btn-primary"> 기사저장</button>
+                <button type="button" class="btn btn-primary" onclick="make_card()"> save</button>
             </div>
         </form>
     </div>
@@ -72,9 +103,9 @@
             <img class="card-img-top"
                 src="https://www.fodors.com/wp-content/uploads/2018/10/4_UltimateRome_PiazzaNavona-97">
             <div class="card-body">
-                <h5 class="card-title"> 예를 들면 이렇게 카드가 나옵니다!!</h5>
-                <p class="card-text">여기에 기사 내용이 들ㅇ어가겠죠</p>
-                <p class="card-text comment">여기엔 코멘트가 들어갑니다.</p>
+                <h5 class="card-title"> this is card!!</h5>
+                <p class="card-text">this is contents</p>
+                <p class="card-text comment">this is commnt.</p>
             </div>
         </div>
     </div>
