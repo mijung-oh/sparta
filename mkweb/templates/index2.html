@@ -6,7 +6,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>³ªÈ¦·Î ¸µÅ© ¸Þ¸ðÀå</title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -50,24 +49,79 @@
 
 <body>
     <div class="jumbotron">
-        <h1 class="display-4">aa</h1>
-        <p class="lead">aa</p>
+        <h1 class="display-4">나홀로 메모장</h1>
         <hr class="my-4">
         <p class="lead">
 
-            <button id="btn-posting-box" onclick="openclose()" type="button" class="btn btn-primary">Æ÷½ºÆÃ ¹Ú½º ¿­±â</button>
+            <button id="btn-posting-box" onclick="openclose()" type="button" class="btn btn-primary">포스팅박스열기</button>
         </p>
     </div>
+
+    <div id="posting-box" class="form-post">
+        <form>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">아티클 URL</label>
+                <input id="posting-url" class="form-control" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">간단한 코멘트</label>
+                <input id="posting-comment" class="form-control" placeholder="">
+            </div>
+            <button onclick="posting()" type="button" class="btn btn-primary">기사 저장</button>
+        </form>
+    </div>
+
+    <div class="card-columns card-post" ID="cards-box">
+        <div class="card">
+            <img class="card-img-top"
+                src="https://www.fodors.com/wp-content/uploads/2018/10/4_UltimateRome_PiazzaNavona-975x650.jpg"
+                alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">예를 들면 이렇게 카드가 나옵니다!</h5>
+                <p class="card-text">여기에 기사 내용이 들어가겠죠</p>
+                <p class="card-text comment">여기엔 코멘트가 들어갑니다</p>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img-top"
+                src="https://www.fodors.com/wp-content/uploads/2018/10/4_UltimateRome_PiazzaNavona-975x650.jpg"
+                alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">예를 들면 이렇게 카드가 나옵니다!</h5>
+                <p class="card-text">여기에 기사 내용이 들어가겠죠</p>
+                <p class="card-text comment">여기엔 코멘트가 들어갑니다</p>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img-top"
+                src="https://www.fodors.com/wp-content/uploads/2018/10/4_UltimateRome_PiazzaNavona-975x650.jpg"
+                alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">예를 들면 이렇게 카드가 나옵니다!</h5>
+                <p class="card-text">여기에 기사 내용이 들어가겠죠</p>
+                <p class="card-text comment">여기엔 코멘트가 들어갑니다</p>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img-top"
+                src="https://www.fodors.com/wp-content/uploads/2018/10/4_UltimateRome_PiazzaNavona-975x650.jpg"
+                alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">예를 들면 이렇게 카드가 나옵니다!</h5>
+                <p class="card-text">여기에 기사 내용이 들어가겠죠</p>
+                <p class="card-text comment">여기엔 코멘트가 들어갑니다</p>
+            </div>
+        </div>
 
     </div>
     <script>
         function openclose() {
             if ($('#posting-box').css('display') == 'block') {
                 $('#posting-box').hide();
-                $('#btn-posting-box').text('open')
+                $('#btn-posting-box').text('포스팅박스 열기')
             } else {
                 $('#posting-box').show();
-                $('#btn-posting-box').text('close')
+                $('#btn-posting-box').text('포스팅 박스 닫기')
             }
         }
 
@@ -75,8 +129,8 @@
             let temp_html = '<div class="card">\
         <img class="card-img-top" src="https://www.fodors.com/wp-content/uploads/2018/10/4_UltimateRome_PiazzaNavona-975x650.jpg" alt="Card image cap">\
         <div class="card-body">\
-          <a class="card-title" target="_blank" href="'+ url + '">b!</a>\
-          <p class="card-text">b</p>\
+          <a class="card-title" target="_blank" href="'+ url + '">이건 url!!</a>\
+          <p class="card-text">이건 텍스트!</p>\
           <p class="card-text comment">'+ comment + '</p>\
         </div>\
       </div>\
@@ -84,17 +138,63 @@
 
             $('#cards-box').append(temp_html);
         }
-        $.ajax({
-            type: "GET",
-            url: "http://openapi.seoul.go.kr:8088/6d4d776b466c656533356a4b4b5872/json/RealtimeCityAir/1/99",
-            data: {},
-            success: function (response) {
-                let dobong_mise = response["RealtimeCityAir"]["row"][11]['IDEX_MVL'];
-                $('#btn-posting-box').text(dobong_mise);
+
+        function posting() {
+            let url = $('#posting-url').val();
+            let comment = $('#posting-comment').val();
+            // alert(url +'/'+comment); 
+            
+            $.ajax({
+                type:"POST",
+                url:"/post",
+                data:{ url_give:url, comment_give:comment},
+                success:function(response){
+                    if(response['result'] == 'success') {
+                        alert('포스팅 성공!')
+                        window.location.reload();
+                    }
+                    else alert('서버 오류!')
+                }
+            })
+        }
+
+        window.onload = function () {
+                get_posting();
             }
 
+        function get_posting(){     
+            $('#cards-box').empty('');    
+            $.ajax({
+                type:"GET",
+                url:"/post",
+                data:{},
+                success:function(response){
+                    let cards = response['articles'];
+                    for(let i=0; i<cards.length; i++){
+                        let url = cards[i]['url'];
+                        let comment = cards[i]['comment'];
 
-        })
+                        make_card(url,comment);
+                    }
+                }
+            })
+        }
+
+
+
+
+
+        // $.ajax({
+        //     type: "GET",
+        //     url: "http://openapi.seoul.go.kr:8088/6d4d776b466c656533356a4b4b5872/json/RealtimeCityAir/1/99",
+        //     data: {},
+        //     success: function (response) {
+        //         let dobong_mise = response["RealtimeCityAir"]["row"][11]['IDEX_MVL'];
+        //         $('#btn-posting-box').text(dobong_mise);
+        //     }
+
+
+        // })
     </script>
 
 
